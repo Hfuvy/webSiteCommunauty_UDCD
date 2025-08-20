@@ -1,0 +1,160 @@
+<!-- templates/contacts/contact.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Contact - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-5 fw-bold">Contactez-nous</h1>
+                <p class="lead">Nous sommes là pour répondre à toutes vos questions</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card shadow-sm">
+                    <div class="card-body p-5">
+                        <div class="row mb-5">
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                                </div>
+                                <h5>Adresse</h5>
+                                <p class="text-muted mb-0">123 Rue du Code<br>75000 Paris, France</p>
+                            </div>
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-phone fa-2x text-primary"></i>
+                                </div>
+                                <h5>Téléphone</h5>
+                                <p class="text-muted mb-0">+33 1 23 45 67 89<br>Lun-Ven, 9h-18h</p>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                                    <i class="fas fa-envelope fa-2x text-primary"></i>
+                                </div>
+                                <h5>Email</h5>
+                                <p class="text-muted mb-0">contact@udemycodewarriors.fr<br>support@udemycodewarriors.fr</p>
+                            </div>
+                        </div>
+
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_name" class="form-label">Nom complet</label>
+                                    <input type="text" class="form-control {% if form.name.errors %}is-invalid{% endif %}" id="id_name" name="name" value="{{ form.name.value|default:'' }}" required>
+                                    {% for error in form.name.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                                
+                                <div class="col-md-6 mb-3">
+                                    <label for="id_email" class="form-label">Adresse email</label>
+                                    <input type="email" class="form-control {% if form.email.errors %}is-invalid{% endif %}" id="id_email" name="email" value="{{ form.email.value|default:'' }}" required>
+                                    {% for error in form.email.errors %}
+                                    <div class="invalid-feedback">{{ error }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="id_subject" class="form-label">Sujet</label>
+                                <input type="text" class="form-control {% if form.subject.errors %}is-invalid{% endif %}" id="id_subject" name="subject" value="{{ form.subject.value|default:'' }}" required>
+                                {% for error in form.subject.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="id_message" class="form-label">Message</label>
+                                <textarea class="form-control {% if form.message.errors %}is-invalid{% endif %}" id="id_message" name="message" rows="5" required>{{ form.message.value|default:'' }}</textarea>
+                                {% for error in form.message.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                                {% endfor %}
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-2">Envoyer le message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center mb-5">
+                <h2 class="fw-bold">Questions fréquentes</h2>
+                <p class="text-muted">Trouvez rapidement des réponses à vos questions</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="accordion" id="faqAccordion">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Comment puis-je accéder à mes formations après achat ?
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Après avoir acheté une formation, elle apparaîtra dans votre espace "Mes formations". Vous pouvez y accéder à tout moment en vous connectant à votre compte.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Les formations sont-elles accessibles à vie ?
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Oui, une fois que vous avez acheté une formation, vous y avez accès à vie, y compris aux mises à jour futures.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingThree">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Proposez-vous une garantie de remboursement ?
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Oui, nous offrons une garantie satisfait ou remboursé de 30 jours. Si vous n'êtes pas satisfait d'une formation, contactez-nous pour un remboursement.
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingFour">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                                Comment obtenir de l'aide technique ?
+                            </button>
+                        </h2>
+                        <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                            <div class="accordion-body">
+                                Pour toute assistance technique, contactez notre équipe de support à support@udemycodewarriors.fr. Nous répondons généralement dans les 24 heures.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

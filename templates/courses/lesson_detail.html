@@ -1,0 +1,121 @@
+<!-- templates/courses/lesson_detail.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ lesson.title }} - {{ course.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+    .lesson-sidebar {
+        height: calc(100vh - 100px);
+        overflow-y: auto;
+    }
+    .lesson-content {
+        min-height: 500px;
+    }
+    .progress-bar {
+        height: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar with lessons list -->
+        <div class="col-lg-3 col-xl-2 bg-light border-end lesson-sidebar">
+            <div class="p-3">
+                <h5 class="mb-3">{{ course.title }}</h5>
+                <div class="progress mb-4">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ enrollment.progress }}" aria-valuemin="0" aria-valuemax="100">{{ enrollment.progress }}%</div>
+                </div>
+                
+                <div class="list-group list-group-flush">
+                    {% for l in course.lessons.all %}
+                    <a href="{% url 'lesson_detail' l.id %}" class="list-group-item list-group-item-action {% if l.id == lesson.id %}active{% endif %}">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span>Leçon {{ forloop.counter }}: {{ l.title }}</span>
+                            {% if l in enrollment.completed_lessons.all %}
+                            <span class="badge bg-success rounded-pill"><i class="fas fa-check"></i></span>
+                            {% endif %}
+                        </div>
+                        {% if l.is_free %}<small class="text-muted">Gratuit</small>{% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Lesson content -->
+        <div class="col-lg-9 col-xl-10">
+            <div class="container py-4">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'home' %}">Accueil</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'course_list' %}">Formations</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'course_detail' course.slug %}">{{ course.title }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ lesson.title }}</li>
+                    </ol>
+                </nav>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h1 class="h3">{{ lesson.title }}</h1>
+                    <div>
+                        {% if previous_lesson %}
+                        <a href="{% url 'lesson_detail' previous_lesson.id %}" class="btn btn-outline-primary me-2">
+                            <i class="fas fa-arrow-left me-1"></i>Précédent
+                        </a>
+                        {% endif %}
+                        {% if next_lesson %}
+                        <a href="{% url 'lesson_detail' next_lesson.id %}" class="btn btn-primary">
+                            Suivant<i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                        {% else %}
+                        <a href="{% url 'course_detail' course.slug %}" class="btn btn-success">
+                            Terminer le cours<i class="fas fa-check ms-1"></i>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="card lesson-content mb-4">
+                    <div class="card-body">
+                        {% if lesson.video %}
+                        <div class="ratio ratio-16x9 mb-4">
+                            <video controls class="w-100">
+                                <source src="{{ lesson.video.url }}" type="video/mp4">
+                                Votre navigateur ne supporte pas la lecture de vidéos.
+                            </video>
+                        </div>
+                        {% endif %}
+                        
+                        <div class="lesson-text">
+                            {{ lesson.content|linebreaks }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    {% if previous_lesson %}
+                    <a href="{% url 'lesson_detail' previous_lesson.id %}" class="btn btn-outline-primary">
+                        <i class="fas fa-arrow-left me-1"></i>Leçon précédente: {{ previous_lesson.title }}
+                    </a>
+                    {% else %}
+                    <span></span>
+                    {% endif %}
+                    
+                    {% if next_lesson %}
+                    <a href="{% url 'lesson_detail' next_lesson.id %}" class="btn btn-primary">
+                        Leçon suivante: {{ next_lesson.title }}<i class="fas fa-arrow-right ms-1"></i>
+                    </a>
+                    {% else %}
+                    <a href="{% url 'course_detail' course.slug %}" class="btn btn-success">
+                        Terminer le cours<i class="fas fa-check ms-1"></i>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

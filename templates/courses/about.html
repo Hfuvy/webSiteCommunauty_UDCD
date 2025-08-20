@@ -1,0 +1,144 @@
+<!-- templates/courses/about.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}À Propos - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="about-hero py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-3 fw-bold mb-4">Notre Histoire</h1>
+                <p class="lead mb-4">Découvrez comment tout a commencé et ce qui nous motive chaque jour.</p>
+                <a href="{% url 'course_list' %}" class="btn btn-primary btn-lg px-5 py-3">Découvrir nos services</a>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-image position-relative">
+                    <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800" alt="Équipe UdemyCodeWarriors" class="img-fluid rounded-3 shadow-lg">
+                    <div class="position-absolute top-0 start-0 bg-primary text-white py-1 px-3 rounded-end">
+                        <i class="fas fa-rocket me-2"></i> Depuis 2020
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Mission Section -->
+<section class="mission py-5 bg-light">
+    <div class="container">
+        <div class="section-title">
+            <h2>Notre Mission</h2>
+            <p class="lead">Transformer l'apprentissage du développement web</p>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-4">
+                            <i class="fas fa-graduation-cap fa-2x"></i>
+                        </div>
+                        <h3 class="mb-3">Éducation accessible</h3>
+                        <p>Rendre l'apprentissage du code accessible à tous, quel que soit le niveau ou le lieu.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-4">
+                            <i class="fas fa-users fa-2x"></i>
+                        </div>
+                        <h3 class="mb-3">Communauté bienveillante</h3>
+                        <p>Créer un environnement d'entraide où chacun peut progresser sans jugement.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card h-100 border-0">
+                    <div class="card-body text-center p-4">
+                        <div class="icon bg-primary bg-gradient text-white rounded-circle mx-auto mb-4">
+                            <i class="fas fa-briefcase fa-2x"></i>
+                        </div>
+                        <h3 class="mb-3">Opportunités professionnelles</h3>
+                        <p>Faciliter l'accès à des carrières dans le développement web pour nos membres.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team py-5">
+    <div class="container">
+        <div class="section-title">
+            <h2>Notre Équipe</h2>
+            <p class="lead">Les passionnés derrière la communauté</p>
+            <div class="divider"></div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card team-member border-0">
+                    <div class="card-img-top">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600" alt="Jean Dupont" class="img-fluid">
+                    </div>
+                    <div class="card-body text-center p-4">
+                        <h3 class="mb-1">Jean Dupont</h3>
+                        <p class="text-primary mb-3">Fondateur & Lead Developer</p>
+                        <p class="mb-3">Expert en JavaScript avec plus de 10 ans d'expérience dans l'industrie.</p>
+                        <div class="social-links d-flex justify-content-center gap-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-github fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card team-member border-0">
+                    <div class="card-img-top">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600" alt="Marie Martin" class="img-fluid">
+                    </div>
+                    <div class="card-body text-center p-4">
+                        <h3 class="mb-1">Marie Martin</h3>
+                        <p class="text-primary mb-3">Responsable Pédagogique</p>
+                        <p class="mb-3">Spécialiste en pédagogie numérique et création de contenus éducatifs.</p>
+                        <div class="social-links d-flex justify-content-center gap-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-github fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card team-member border-0">
+                    <div class="card-img-top">
+                        <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600" alt="Thomas Bernard" class="img-fluid">
+                    </div>
+                    <div class="card-body text-center p-4">
+                        <h3 class="mb-1">Thomas Bernard</h3>
+                        <p class="text-primary mb-3">Community Manager</p>
+                        <p class="mb-3">Passionné par la création de communautés engagées et solidaires.</p>
+                        <div class="social-links d-flex justify-content-center gap-3">
+                            <a href="#" class="text-primary"><i class="fab fa-linkedin-in fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-github fa-lg"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter fa-lg"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

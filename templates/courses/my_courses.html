@@ -1,0 +1,63 @@
+<!-- templates/courses/my_courses.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Mes Formations - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <h1 class="display-5 fw-bold">Mes Formations</h1>
+                <p class="lead">Continuez votre apprentissage là où vous vous étiez arrêté</p>
+            </div>
+        </div>
+
+        {% if enrollments %}
+        <div class="row g-4">
+            {% for enrollment in enrollments %}
+            <div class="col-md-6 col-lg-4">
+                <div class="course-card">
+                    <div class="course-img">
+                        {% if enrollment.course.image %}
+                        <img src="{{ enrollment.course.image.url }}" alt="{{ enrollment.course.title }}">
+                        {% else %}
+                        <img src="{% static 'images/default-course.jpg' %}" alt="{{ enrollment.course.title }}">
+                        {% endif %}
+                        <div class="progress position-absolute top-0 start-0 w-100 rounded-0" style="height: 5px;">
+                            <div class="progress-bar" role="progressbar"  aria-valuenow="{{ enrollment.progress }}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">{{ enrollment.course.title }}</h3>
+                        <p class="course-description">{{ enrollment.course.short_description }}</p>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ enrollment.progress }}" aria-valuemin="0" aria-valuemax="100">{{ enrollment.progress }}% complété</div>
+                        </div>
+                        <div class="course-footer">
+                            <span class="badge bg-{% if enrollment.progress == 100 %}success{% else %}primary{% endif %}">
+                                {% if enrollment.progress == 100 %}Terminé{% else %}En cours{% endif %}
+                            </span>
+                            <a href="{% if enrollment.progress == 100 %}{% url 'course_detail' enrollment.course.slug %}{% else %}{% url 'lesson_detail' enrollment.get_next_lesson.id %}{% endif %}" class="btn-enroll">
+                                {% if enrollment.progress == 100 %}Voir le cours{% else %}Continuer{% endif %}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5">
+            <div class="mb-4">
+                <i class="fas fa-book-open fa-4x text-muted"></i>
+            </div>
+            <h3>Vous n'êtes inscrit à aucune formation</h3>
+            <p class="text-muted mb-4">Découvrez nos formations et commencez votre apprentissage dès aujourd'hui</p>
+            <a href="{% url 'course_list' %}" class="btn btn-primary btn-lg">Explorer les formations</a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

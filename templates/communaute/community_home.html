@@ -1,0 +1,155 @@
+<!-- templates/communaute/community_home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Communauté - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold">Communauté</h1>
+                <p class="lead">Échangez, posez des questions et partagez vos connaissances avec d'autres apprenants</p>
+            </div>
+            <div class="col-md-4 text-end">
+                <a href="{% url 'create_post' %}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Nouveau post
+                </a>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Filters -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex flex-wrap gap-2">
+                            <a href="?type=question" class="btn btn-sm {% if request.GET.type == 'question' %}btn-primary{% else %}btn-outline-primary{% endif %}">Questions</a>
+                            <a href="?type=discussion" class="btn btn-sm {% if request.GET.type == 'discussion' %}btn-primary{% else %}btn-outline-primary{% endif %}">Discussions</a>
+                            <a href="?type=resource" class="btn btn-sm {% if request.GET.type == 'resource' %}btn-primary{% else %}btn-outline-primary{% endif %}">Ressources</a>
+                            <a href="?" class="btn btn-sm btn-outline-secondary">Tout afficher</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Posts list -->
+                {% for post in posts %}
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="d-flex align-items-start">
+                            <img src="{% if post.author.profile.avatar %}{{ post.author.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="{{ post.author.username }}" class="rounded-circle me-3" width="50" height="50">
+                            <div class="flex-grow-1">
+                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                    <h5 class="card-title mb-0">
+                                        <a href="{% url 'post_detail' post.id %}" class="text-decoration-none">{{ post.title }}</a>
+                                        {% if post.is_pinned %}<span class="badge bg-warning ms-2"><i class="fas fa-thumbtack"></i> Épinglé</span>{% endif %}
+                                    </h5>
+                                    <span class="badge bg-{% if post.post_type == 'question' %}primary{% elif post.post_type == 'discussion' %}info{% else %}success{% endif %}">
+                                        {{ post.get_post_type_display }}
+                                    </span>
+                                </div>
+                                
+                                <p class="card-text text-muted mb-2">
+                                    Par <a href="#" class="text-decoration-none">{{ post.author.get_full_name|default:post.author.username }}</a> 
+                                    {% if post.course %}dans <a href="{% url 'course_detail' post.course.slug %}" class="text-decoration-none">{{ post.course.title }}</a>{% endif %}
+                                    · {{ post.created_at|timesince }}
+                                </p>
+                                
+                                <p class="card-text">{{ post.content|truncatewords:30 }}</p>
+                                
+                                <div class="d-flex align-items-center">
+                                    <a href="{% url 'like_post' post.id %}" class="btn btn-sm btn-outline-primary me-2">
+                                        <i class="fas fa-thumbs-up"></i> {{ post.likes.count }}
+                                    </a>
+                                    <a href="{% url 'post_detail' post.id %}#comments" class="btn btn-sm btn-outline-secondary me-2">
+                                        <i class="fas fa-comment"></i> {{ post.comments.count }}
+                                    </a>
+                                    <span class="text-muted small">
+                                        <i class="fas fa-eye"></i> {{ post.views }} vues
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <div class="card">
+                    <div class="card-body text-center py-5">
+                        <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                        <h3>Aucun post pour le moment</h3>
+                        <p class="text-muted">Soyez le premier à démarrer une discussion</p>
+                        <a href="{% url 'create_post' %}" class="btn btn-primary">Créer un post</a>
+                    </div>
+                </div>
+                {% endfor %}
+
+                <!-- Pagination -->
+                {% if is_paginated %}
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        {% if page_obj.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Précédent</a>
+                        </li>
+                        {% endif %}
+                        
+                        {% for num in page_obj.paginator.page_range %}
+                        <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                            <a class="page-link" href="?page={{ num }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">{{ num }}</a>
+                        </li>
+                        {% endfor %}
+                        
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.type %}&type={{ request.GET.type }}{% endif %}">Suivant</a>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {% endif %}
+            </div>
+
+            <div class="col-lg-4">
+                <!-- Community stats -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Statistiques de la communauté</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Membres
+                                <span class="badge bg-primary rounded-pill">{{ total_members }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Discussions
+                                <span class="badge bg-primary rounded-pill">{{ total_posts }}</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between align-items-center">
+                                Commentaires
+                                <span class="badge bg-primary rounded-pill">{{ total_comments }}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Top contributors -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Top contributeurs</h5>
+                        {% for contributor in top_contributors %}
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{% if contributor.profile.avatar %}{{ contributor.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="{{ contributor.username }}" class="rounded-circle me-3" width="40" height="40">
+                            <div class="flex-grow-1">
+                                <h6 class="mb-0">{{ contributor.get_full_name|default:contributor.username }}</h6>
+                                <small class="text-muted">{{ contributor.posts.count }} posts</small>
+                            </div>
+                            <span class="badge bg-warning">{{ forloop.counter }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

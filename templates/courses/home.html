@@ -1,0 +1,190 @@
+<!-- templates/courses/home.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Accueil - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Maîtrisez le développement web</h1>
+                <p class="lead mb-4">Découvrez nos formations complètes pour devenir un développeur web accompli, quel que soit votre niveau.</p>
+                <div class="d-flex flex-wrap gap-3">
+                    <a href="#formations" class="btn btn-primary btn-lg px-5 py-3">Explorer les formations</a>
+                    <a href="#" class="btn btn-outline-primary btn-lg px-5 py-3">Essai gratuit</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="position-relative mt-5 mt-lg-0">
+                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800" alt="Développement web" class="img-fluid rounded-3 shadow-lg">
+                    <div class="position-absolute top-0 start-0 bg-primary text-white py-1 px-3 rounded-end">
+                        <i class="fas fa-star me-2"></i> 98% de satisfaction
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Courses -->
+<section id="formations" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Formations Populaires</h2>
+        <div class="row g-4">
+            {% for course in featured_courses %}
+            <div class="col-md-4">
+                <div class="course-card">
+                    <div class="course-img">
+                        {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                        {% else %}
+                        <img src="{% static 'images/default-course.jpg' %}" alt="{{ course.title }}">
+                        {% endif %}
+                        <div class="course-badge">{{ course.get_level_display }}</div>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">{{ course.title }}</h3>
+                        <p class="course-description">{{ course.short_description }}</p>
+                        <div class="course-footer">
+                            <div class="price">€{{ course.price }}</div>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn-enroll">Voir détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-5">
+            <a href="{% url 'course_list' %}" class="btn btn-outline-primary btn-lg px-5 py-3">
+                <i class="fas fa-book me-2"></i>Voir toutes les formations
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="py-5" style="background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-lg-8 text-center">
+                <h1 class="display-4 fw-bold text-white mb-3">
+                    <i class="fas fa-chart-line me-3"></i>NOTRE COMMUNAUTÉ EN CHIFFRES
+                </h1>
+                <p class="lead text-white opacity-75">
+                    Rejoignez des milliers de membres satisfaits qui développent leurs compétences avec nous
+                </p>
+            </div>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+            <!-- Membres -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card bg-white bg-opacity-10 border-0 rounded-4 shadow-lg h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-users fa-3x text-white opacity-75"></i>
+                        </div>
+                        <h2 class="display-3 fw-bold text-white">50K+</h2>
+                        <p class="fs-5 text-white mb-0">Membres</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tutoriels -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card bg-white bg-opacity-10 border-0 rounded-4 shadow-lg h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-graduation-cap fa-3x text-white opacity-75"></i>
+                        </div>
+                        <h2 class="display-3 fw-bold text-white">120+</h2>
+                        <p class="fs-5 text-white mb-0">Tutoriels</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Projets -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card bg-white bg-opacity-10 border-0 rounded-4 shadow-lg h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-laptop-code fa-3x text-white opacity-75"></i>
+                        </div>
+                        <h2 class="display-3 fw-bold text-white">500+</h2>
+                        <p class="fs-5 text-white mb-0">Projets</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Satisfaction -->
+            <div class="col-md-6 col-lg-3">
+                <div class="card bg-white bg-opacity-10 border-0 rounded-4 shadow-lg h-100">
+                    <div class="card-body p-4 text-center">
+                        <div class="mb-4">
+                            <i class="fas fa-smile fa-3x text-white opacity-75"></i>
+                        </div>
+                        <h2 class="display-3 fw-bold text-white">98%</h2>
+                        <p class="fs-5 text-white mb-0">Satisfaction</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <p class="fs-5 text-white mb-4">Rejoignez notre communauté grandissante dès aujourd'hui !</p>
+                <a href="{% url 'register' %}" class="btn btn-light btn-lg px-5 py-3 fw-bold rounded-pill">
+                    <i class="fas fa-user-plus me-2"></i>Devenir Membre
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Courses -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Nouvelles Formations</h2>
+        <div class="row g-4">
+            {% for course in recent_courses %}
+            <div class="col-md-4">
+                <div class="course-card">
+                    <div class="course-img">
+                        {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                        {% else %}
+                        <img src="{% static 'images/default-course.jpg' %}" alt="{{ course.title }}">
+                        {% endif %}
+                        <div class="course-badge new">NOUVEAU</div>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">{{ course.title }}</h3>
+                        <p class="course-description">{{ course.short_description }}</p>
+                        <div class="course-footer">
+                            <div class="price">€{{ course.price }}</div>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn-enroll">Voir détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section py-5">
+    <div class="container">
+        <h2 class="cta-title">Prêt à transformer votre carrière ?</h2>
+        <p class="cta-subtitle">Rejoignez plus de 50,000 apprenants qui ont déjà choisi UdemyCodeWarriors pour maîtriser le développement web et accéder à de nouvelles opportunités professionnelles.</p>
+        <div class="text-center">
+            <a href="{% url 'register' %}" class="btn-cta">
+                <i class="fas fa-rocket me-2"></i>Commencer maintenant
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,111 @@
+<!-- templates/courses/course_list.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Formations - UdemyCodeWarriors{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Nos Formations</h1>
+                <p class="lead">Découvrez tous nos cours pour devenir un développeur accompli</p>
+            </div>
+            <div class="col-md-6">
+                <form method="get" class="d-flex">
+                    <input type="text" name="q" class="form-control me-2" placeholder="Rechercher une formation..." value="{{ request.GET.q }}">
+                    <select name="category" class="form-select me-2">
+                        <option value="">Toutes les catégories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.slug }}" {% if request.GET.category == category.slug %}selected{% endif %}>{{ category.name }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="row g-4">
+            {% for course in courses %}
+            <div class="col-md-6 col-lg-4">
+                <div class="course-card">
+                    <div class="course-img">
+                        {% if course.image %}
+                        <img src="{{ course.image.url }}" alt="{{ course.title }}">
+                        {% else %}
+                        <img src="{% static 'images/default-course.jpg' %}" alt="{{ course.title }}">
+                        {% endif %}
+                        <div class="course-badge {{ course.level }}">{{ course.get_level_display }}</div>
+                    </div>
+                    <div class="course-info">
+                        <h3 class="course-title">{{ course.title }}</h3>
+                        <p class="course-description">{{ course.short_description }}</p>
+                        <div class="course-meta">
+                            <div><i class="fas fa-play-circle me-1"></i> {{ course.lessons_count }} leçons</div>
+                            <div><i class="fas fa-clock me-1"></i> {{ course.duration }} heures</div>
+                            <div><i class="fas fa-user me-1"></i> {{ course.students_count }} étudiants</div>
+                        </div>
+                        <div class="d-flex align-items-center mb-3">
+                            <img src="{% if course.instructor.profile.avatar %}{{ course.instructor.profile.avatar.url }}{% else %}{% static 'images/default-avatar.png' %}{% endif %}" alt="{{ course.instructor.username }}" class="instructor-img me-2">
+                            <div>
+                                <div class="fw-bold">{{ course.instructor.get_full_name|default:course.instructor.username }}</div>
+                                <div class="rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <span>4.8</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="course-footer">
+                            <div>
+                                {% if course.discount_price %}
+                                <div class="price">€{{ course.discount_price }}</div>
+                                <div class="old-price">€{{ course.price }}</div>
+                                {% else %}
+                                <div class="price">€{{ course.price }}</div>
+                                {% endif %}
+                            </div>
+                            <a href="{% url 'course_detail' course.slug %}" class="btn-enroll">Voir détails</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <h3>Aucune formation disponible pour le moment</h3>
+                <p class="text-muted">Essayez de modifier vos critères de recherche</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Précédent</a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                    <a class="page-link" href="?page={{ num }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">{{ num }}</a>
+                </li>
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}">Suivant</a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

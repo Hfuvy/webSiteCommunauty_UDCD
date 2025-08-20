@@ -1,0 +1,55 @@
+<!-- templates/partials/footer.html -->
+<footer class="bg-dark text-white py-5 mt-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4 mb-lg-0">
+                <h4 class="mb-4"><i class="fas fa-code me-2"></i>UdemyCodeWarriors</h4>
+                <p>Transformez votre passion pour le code en carrière grâce à notre communauté d'apprentissage et nos cours de qualité.</p>
+                <div class="social-links d-flex gap-3 mt-3">
+                    <a href="#" class="text-white"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-4">Liens Rapides</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="{% url 'home' %}" class="text-white text-decoration-none">Accueil</a></li>
+                    <li class="mb-2"><a href="{% url 'course_list' %}" class="text-white text-decoration-none">Formations</a></li>
+                    <li class="mb-2"><a href="{% url 'community_home' %}" class="text-white text-decoration-none">Communauté</a></li>
+                    <li class="mb-2"><a href="{% url 'contact' %}" class="text-white text-decoration-none">Contact</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-4">Nos Formations</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Développement Web</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">JavaScript Avancé</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">React & Redux</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Node.js Backend</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-3 col-md-4">
+                <h5 class="mb-4">Contact</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-3"><i class="fas fa-map-marker-alt me-2"></i>Paris, France</li>
+                    <li class="mb-3"><i class="fas fa-envelope me-2"></i>contact@udemycodewarriors.fr</li>
+                    <li><i class="fas fa-phone me-2"></i>+33 1 23 45 67 89</li>
+                </ul>
+            </div>
+        </div>
+        <hr class="mt-4 mb-4">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="mb-0">&copy; 2023 UdemyCodeWarriors. Tous droits réservés.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="mb-0">
+                    <a href="#" class="text-white text-decoration-none me-3">Mentions légales</a>
+                    <a href="#" class="text-white text-decoration-none">Politique de confidentialité</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
